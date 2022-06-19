@@ -1,78 +1,113 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "bebidas.h"
 
 int main()
 {
-    int op, n;
-    Lista *lista;
+    int op,volume, x = 0;
+    char nome[20];
+    float preco;
     do{
         do{
-            printf(" --- LISTAS ESTATICAS SEQUENCIAIS --- \n\n");
+            printf(" \n--- REGISTRO BEBIDAS --- \n\n");
             printf(" Escolha uma opcao\n");
-            printf(" 1. Criar registro\n");
-            printf(" 2. Verificar registro vazio\n");
-            printf(" 3. Verificar registro cheio\n");
-            printf(" 4. Insere registro\n");
-            printf(" 5. Apagar ultimo registro\n");
+            printf(" 1. Criar lista\n");
+            printf(" 2. Verificar lista vazia\n");
+            printf(" 3. Verificar lista cheia\n");
+            printf(" 4. Inserir registro \n");
+            printf(" 5. Excluir registro \n");
             printf(" 6. Imprimir registro\n");
             printf(" 7. SAIR\n");
             printf(" Opcao: ");
             scanf("%d", &op);
             if((op < 1) || (op > 7)) {
 
-                printf("\n\n Opcao Invalida! Tente novamente...");
+                printf("Opcao Invalida! Tente novamente... \n");
             }
         } while((op < 1) || (op > 7));
 
         switch(op)
-        {   
+        {
             case 1:
-                lista = cria_lista();
-                printf("\n\n Registro criado. \n\n");
+                Lista lista = cria_lista();
+                if (lista != NULL){
+                    printf("Lista criada! \n");
+                }else{
+                    printf("Lista nao criada! \n");
+                }
+                x = 1;
                 break;
 
             case 2:
-               if (lista_vazia(lista) == 1){
-                    printf("\n\n Registro vazio. \n\n");
+                if (x != 1)
+                {
+                    printf("Lista nao criada! \n");
                 }else{
-                    printf("\n\n Registro nao vazio. \n\n");
+                    if(lista_vazia(lista) == 1){
+                        printf("Lista vazia! \n");
+                    }else{
+                        printf("Lista nao vazia! \n");
+                    }
                 }
-               break;
+                break;
 
             case 3:
-                if (lista_cheia(lista) == 1)
+                if (x != 1)
                 {
-                    printf("\n\n Registro cheio. \n\n");
+                    printf("Lista nao criada! \n");
                 }else{
-                    printf("\n\n Registro nao cheio. \n\n");
+                    if(lista_cheia(lista) == 1){
+                        printf("Lista cheia! \n");
+                    }else{
+                        printf("Lista nao cheia! \n");
+                    }
                 }
                 break;
 
             case 4:
-                int volume;
-                float preco;
-                char nome[20];
-                printf("\n\n Qual registro deseja inserir: \n\n");
-                scanf("\n\n %d", &n);
-                insere_elem(lista, n);
-                printf("\n\n Numero inserido \n\n");
-                break;
-
-            case 5:
-                printf("\n\n Qual elemento deseja remover: \n\n");
-                scanf("\n\n %d", &n);
-                remove_elem(lista,n);
-                if (remove_elem(lista,n) == 1)
-                {
-                    printf("\n\n Numero removido \n\n");
+                if (x != 1){
+                    printf("Lista nao criada! \n");
                 }else{
-                    printf("\n\n Numero nao encontrado \n\n");
+                    setbuf(stdin,NULL);
+                    printf("Qual o nome do registro que deseja inserir? \n");
+                    scanf("%s", &nome);
+                    setbuf(stdin,NULL);
+                    printf("Qual o volume(ml)? \n");
+                    scanf("%d", &volume);
+                    setbuf(stdin,NULL);
+                    printf("Qual o preco? \n");
+                    scanf("%f", &preco);
+                    setbuf(stdin,NULL);
+                    if (insere_elem(lista,nome,volume,preco) == 1)
+                    {
+                        printf("Registro inserido! \n");
+                    }else{
+                        printf("Registro nao inserido! \n");
+                    }
                 }
                 break;
 
+            case 5:
+                if (x != 1){
+                    printf("Lista nao criada! \n");
+                }else{
+                    printf("Qual o nome da bebida que deseja remover? \n");
+                    scanf("%s", &nome);
+                    if (remove_elem(lista,nome) == 1)
+                    {
+                        printf("Registro removido! \n");
+                    }else{
+                        printf("Registro nao removido! \n");
+                    }
+                    break;
+                }
             case 6:
-                obtem_valor_elem(lista);
+                if (x != 1) {
+                    printf("Lista nao criada! \n");
+                }else{
+                    imprime(lista);
+                }
                 break;
         }
     } while(op != 7);
