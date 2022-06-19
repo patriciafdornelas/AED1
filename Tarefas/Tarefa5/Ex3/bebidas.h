@@ -1,8 +1,7 @@
-struct bebidas;
-typedef struct lista Lista;
-Lista* cria_lista();
-int lista_vazia(Lista* lista);
-int lista_cheia(Lista* lista);
-int insere_elem(Lista* lista, , int volume, float preco,char nome[20]);
-int remove_elem(Lista* lista, char n);
-void obtem_valor_elem(Lista* lista, int *volume, float *preco,char *nome[20]);
+typedef struct lista *Lista;
+Lista cria_lista();
+int lista_vazia(Lista lst);
+int lista_cheia(Lista lst);
+int insere_elem(Lista lst, char *nome, int volume, float preco);
+int remove_elem(Lista lst, char *nome);
+void imprime(Lista lst);
