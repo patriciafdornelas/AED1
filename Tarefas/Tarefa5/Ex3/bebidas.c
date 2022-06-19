@@ -1,72 +1,76 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "bebidas.h"
-#define MAX 20
+#define MAX 10
 
-struct bebidas
-{
-    char Nome[20];
-    int Volume;
-    float Preco;
+struct bebida{
+    char nome[20];
+    int volume;
+    float preco;
 };
 
-struct lista
-{
+struct lista{
+    struct bebida Bebida[MAX];
     int Fim;
-    struct bebidas Bebidas[MAX];
 };
 
-Lista* cria_lista(){
-    Lista *lista;
-    lista = (Lista*)malloc(sizeof(struct lista));
-
-    if (lista != NULL){
-        lista -> Fim = 0;
-    }
-    return lista;
+Lista cria_lista(){
+    Lista lst;
+    lst = (Lista)malloc(sizeof(struct lista));
+    if(lst != NULL)
+        lst->Fim = 0;
+    return lst;
 }
 
-int lista_vazia(Lista* lista){
-    if(lista->Fim == 0){
+int lista_vazia(Lista lst){
+    if(lst->Fim == 0)
         return 1;
-    }else{
+    else
         return 0;
-    }
 }
 
-int lista_cheia(Lista* lista){
-    if (lista->Fim == MAX){
+int lista_cheia(Lista lst){
+    if(lst->Fim == MAX)
         return 1;
-    }else{
+    else
         return 0;
-    }
 }
 
-int insere_elem(Lista* lista, struct bebidas Beb){
-    if (lista == NULL || lista_cheia(lista) == 1){
+int insere_elem(Lista lst, char *nome, int volume, float preco){
+    struct bebida elem;
+    strcpy(elem.nome,nome);
+    elem.volume = volume;
+    elem.preco = preco;
+    if(lst == NULL || lista_cheia(lst) == 1)
         return 0;
-    }
-    lista -> Bebidas[lista->Fim] = Beb;
-    lista->Fim++;
+    lst->Bebida[lst->Fim] = elem;
+    lst->Fim++;
     return 1;
 }
 
-int remove_elem(Lista* lista, char n){
-    if (lista == NULL ||lista_vazia(lista) == 1){
+int remove_elem(Lista lst, char *nome){
+    if(lst == NULL || lista_vazia(lst) == 1)
         return 0;
-    }
-    int i, Aux = 0;
-    lista->Fim--;
+    int i,aux = 0;
+    while(aux < lst->Fim && strcmp(lst->Bebida[aux].nome,nome) < 0)
+        aux++;
+    if(aux == lst->Fim)
+        return 0;
+    for(i = aux+1; i < lst->Fim; i++)
+        lst->Bebida[i-1] = lst->Bebida[i];
+    lst->Fim--;
     return 1;
 }
 
-void obtem_valor_elem(Lista* lista){
-    if (lista == NULL ||lista_vazia(lista) == 1){
-        printf("\n\nLista vazia!\n\n");
+void imprime(Lista lst){
+    int i;
+    if(lista_vazia(lst) == 1){
+        printf("Lista vazia \n");
     }
-    printf("\n\n Numeros na lista \n\n");
-    for (int i = 0; i < lista->Fim; i++){
-        printf("%d \t", lista->Bebidas[i]);
+    for (i = 0; i < lst->Fim; i++)
+    {
+        printf("Nome: %s  Volume: %d  Preco: %.2f \n", lst->Bebida[i].nome, lst->Bebida[i].volume, lst->Bebida[i].preco);
     }
-    printf("\n\n");
+    
 }
