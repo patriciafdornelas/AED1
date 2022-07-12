@@ -81,17 +81,19 @@ int tamanho(Lista lst){
     return tam;
 }
 
-int maior(Lista lst){ //ERRO
+int maior(Lista lst){
+int maior=-99;
     if(lista_vazia(lst) == 1)
         return 0;
     Lista primeiro = lst;
-    while(lst != primeiro){
-        if(lst->info > lst->prox->info)
-            return lst->info;
-        else
-            return lst->prox->info;
+    lst = lst->prox;
+    for(int i = 0; i<tamanho(lst);i++){
+        if(lst->info > maior)
+            maior = lst->info;
         lst = lst->prox;
+        
     }
+    return maior;
 }
 
 int remove_pares(Lista *lst){
